@@ -11,7 +11,7 @@ body{
     max-width: 100%;
 }
 .footer{    
-    position: absolute;
+    position: fixed;
     bottom: 1rem;
     display: flex;
     flex-direction: row;
@@ -24,4 +24,14 @@ body{
     height: 100%;
     border: groove gray 5px;
     border-radius: 0.5rem;
+}
+.consulta{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    font-weight: bolder;
+    font-size: larger 1rem;
+    color: rgb(255, 255, 255);
+    padding: 0.5rem;
+    margin: 2rem;
 }
