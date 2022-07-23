@@ -1,4 +1,4 @@
-class destinos {
+class Destinos {
     constructor(name, precio) {
         this.name = name;
         this.precio = precio;
@@ -10,81 +10,38 @@ class destinos {
 }
 
 const listaDestinos = [];
-listaDestinos.push(new destinos("malasia", 1000));
-listaDestinos.push(new destinos("everest", 2000));
-listaDestinos.push(new destinos("egipto", 3000));
-
-
-const ventaViaje = (destinos) => {
-    let viajeVendido = [];
-    for (const destinos of listaDestinos) {
-        viajeVendido.push(destinos.name);
-    }
-    let travelSolt = viajeVendido.indexOf(destinos);
-    let travelFind = listaDestinos[travelSolt];
-    travelFind.vender();
-}
-
-/* let viaje = prompt('ingrese el destino que desea viajar: 1- Malasia. 2- Everest. 3- Egipto.').toLowerCase();
-if ((viaje === "malasia") || (viaje === "everest") || (viaje === "egipto")){
-    alert(`su destino es : ${viaje}`);
-}else{
-    alert('usted no eligio ningun destino!');
-}   
+listaDestinos.push(new Destinos("malasia", 1000));
+listaDestinos.push(new Destinos("everest", 2000));
+listaDestinos.push(new Destinos("egipto", 3000));
+listaDestinos.push(new Destinos("niza", 3500));
+listaDestinos.push(new Destinos("malaga", 2500));
 console.log(listaDestinos);
+localStorage.setItem("destinos",JSON.stringify(listaDestinos));
 
-let pay;
-if(viaje === "malasia"){
-    pay = 1000 * 1.21;
-    console.log(`usted eligio Malasia, el monto a abonar mas impuestos es ${pay}`);
-    ventaViaje(viaje);
-}else if (viaje === "everest"){
-    pay = 2000 * 1.21;
-    console.log(`usted eligio Everest, el monto a abonar mas impuestos es ${pay}`);
-    ventaViaje(viaje);
-}else if(viaje === "egipto"){
-    pay = 3000 * 1.21;
-    console.log(`usted eligio Egipto, el monto a abonar mas impuestos es ${pay}`);
-    ventaViaje(viaje);
-}else{
-    console.log("usted no eligio ningun destino");
-} */
-let consulta = document.getElementById("consulta");
+let destinoElegido;
 let pay;
 let travelForm = document.getElementById("formulario");
-formulario.addEventListener("submit", (e) => {
+travelForm.addEventListener("submit", (e) => {
     e.preventDefault();
     let info = e.target;
-    if (info.children[0].value === "malasia") {
-        let ev = "malasia";
-        pay = 1000 * 1.21;
-        let info = document.createElement("h2");
-        info.innerHTML = `El costo Para Malasia mas impuestos es $ ${pay}`;
-        ventaViaje(ev);
-        console.log(listaDestinos);
-        info.className = "consulta"
-        consulta.appendChild(info);
-    } else if (info.children[0].value === "everest") {
-        let ev = "everest";
-        pay = 2000 * 1.21;
-        let info = document.createElement("h2");
-        info.innerHTML = `El costo Para Everest mas impuestos es $ ${pay}`
-        ventaViaje(ev);
-        info.className = "consulta"
-        consulta.appendChild(info);
-    } else if (info.children[0].value === "egipto") {
-        let ev = "egipto";
-        pay = 3000 * 1.21;
-        let info = document.createElement("h2");
-        info.innerHTML = `El costo Para Egipto mas impuestos es $ ${pay}`
-        ventaViaje(ev);
-        info.className = "consulta"
-        consulta.appendChild(info);
-    } else {
-        let info = document.createElement("h2");
-        info.innerHTML = "No eligio un destino disponible"
-        info.className = "consulta"
-        consulta.appendChild(info);
-    }
-
+    destinoElegido = info.children[0].value;
+    const resultado = listaDestinos.find((el) => el.name === destinoElegido);
+    localStorage.setItem("destinofavo", JSON.stringify(resultado));
+    resultado.vender();
+    let cuota = info.children[1].value;
+    totalPago= resultado.precio * 1.21;
+    pay = (totalPago / cuota).toFixed(2);
+    console.log(pay);  
+    
+    let consulta = document.getElementById("consulta");
+    let resulDest = document.createElement("div");
+    resulDest.innerHTML = `<h2> Tu destino es ${destinoElegido}</h2>
+                            <img src="./img/7.jpg">
+                                <p> El monto a abonar es $${totalPago} mas impuestos, lo abonas en ${cuota} cuotas de $${pay}. `;
+    consulta.append(resulDest);
 });
+
+let destFav = document.getElementById("fav1")
+let fav = document.createElement("h3");
+fav.innerHTML = localStorage.getItem("destinofavo");
+destFav.append(fav);
